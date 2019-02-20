@@ -30,6 +30,12 @@ def no_better_part_array(n, lam):
     return arr
 
 
+def no_better_part_array_conditional(n, lam):
+    arr = no_better_part_array(n, lam)
+    p = [sum(comb(n, l) * (lam/n) ** l * (1 - lam/n) ** (n - l) * (1 - comb(n - i, l) / comb(n, l)) ** lam for l in range(n + 1)) for i in range(n)]
+    return [arr[i] / p[i] for i in range(n)]
+
+
 def better_part(n, lam, i):
     return sum(comb(n, l) * (lam/n) ** l * (1 - lam/n) ** (n - l) * (1 - (1 - comb(n - i - 1, l -1) / comb(n, l)) ** lam) for l in range(1, n - i + 1))
 
@@ -37,15 +43,21 @@ def better_part(n, lam, i):
 def better_part_array(n, lam):
     return [better_part(n, lam, i) for i in range(n)]
 
+
+def better_part_array_conditional(n, lam):
+    arr = [better_part(n, lam, i) for i in range(n)]
+    p = [sum(comb(n, l) * (lam/n) ** l * (1 - lam/n) ** (n - l) * (1 - (1 - comb(n - i, l) / comb(n, l)) ** lam) for l in range(n + 1)) for i in range(n)]
+    return [arr[i] / p[i] for i in range(n)]
+
 n = 100
 
 for lam in 2, 10, 20, 50, 90:
     assumed_threshold = n / lam * 2
-    b = better_part_array(n, lam)
-    nb = no_better_part_array(n, lam)
+    b = better_part_array_conditional(n, lam)
+    nb = no_better_part_array_conditional(n, lam)
     plt.plot(range(n), nb, 'bo-', label='no better individual')
     plt.plot(range(n), b, 'ro-', label='with better individual')
-    plt.plot(range(n), [nb[i] + b[i] for i in range(n)], 'go-', label='total probability')
+    plt.plot(range(n), [lam/n] * n, 'go-', label='desired')
     plt.plot([assumed_threshold] * 2, [0, b[0] + nb[0]], 'r-')
     plt.title('$\lambda = {}$'.format(lam))
     plt.legend(loc=1)
