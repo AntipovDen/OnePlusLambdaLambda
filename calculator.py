@@ -53,12 +53,16 @@ n = 100
 
 for lam in 2, 10, 20, 50, 90:
     assumed_threshold = n / lam * 2
+    # b = better_part_array(n, lam)
+    # nb = no_better_part_array(n, lam)
     b = better_part_array_conditional(n, lam)
     nb = no_better_part_array_conditional(n, lam)
     plt.plot(range(n), nb, 'bo-', label='no better individual')
     plt.plot(range(n), b, 'ro-', label='with better individual')
     plt.plot(range(n), [lam/n] * n, 'go-', label='desired')
-    plt.plot([assumed_threshold] * 2, [0, b[0] + nb[0]], 'r-')
+    # plt.plot(range(n), [b[i] + nb[i] for i in range(n)], 'go-', label='total')
+    # plt.plot([assumed_threshold] * 2, [0, b[0] + nb[0]], 'r-')
+    plt.ylim(0, min(2, b[0]))
     plt.title('$\lambda = {}$'.format(lam))
     plt.legend(loc=1)
     plt.xlabel('current fitness')
