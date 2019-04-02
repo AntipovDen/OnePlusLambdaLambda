@@ -74,7 +74,7 @@ def draw_plot_different_lambda():
     print('\t\\addplot+ [boxplot]')
     print('\t\ttable [row sep=\\\\,y index=0] {')
     print('\t\t\tdata\\\\')
-    print('\t\t\t{}\\\\'.format('\\\\ '.join(str(s) for s in data1[1])))
+    print('\t\t\t{}\\\\'.format('\\\\ '.join(str(2 * s) for s in data1[1])))
     print('\t};')
 
     for i in range(9):
@@ -130,4 +130,4 @@ def draw_plots_together():
     print('\\end{tikzpicture}')
 
 
-draw_plot_different_lambda()
+draw_plot_equal_lambda()
